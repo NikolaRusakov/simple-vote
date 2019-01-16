@@ -4,12 +4,12 @@
   </button>
   <a class="navbar-brand" [routerLink]="['/']"><i class="fa fa-fw fa-pencil-square-o"></i>&nbsp;SimpleVote</a>
   <div [class.collapse]="collapseNavbar" class="collapse navbar-collapse">
-    <ul class="navbar-nav mr-auto">
+   <!-- <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link active" [routerLink]="['/']">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://github.com/dessalines/simple-vote" target="_blank" placement="bottom" [tooltip]="version">About</a>
+        &lt;!&ndash;<a class="nav-link" href="https://github.com/dessalines/simple-vote" target="_blank" placement="bottom" [tooltip]="version">About</a>&ndash;&gt;
       </li>
       <li class="nav-item">
         <button role="button" class="btn btn-outline-primary mx-2"
@@ -18,10 +18,10 @@
       <li class="nav-item">
         <a role="button" class="nav-link link-unstyled" placement="bottom" tooltip="Donate to the developer" href="https://paypal.me/THoulihan" target="_blank"><small>donate</small></a>
       </li>
-    </ul>
+    </ul>-->
     <ul *ngIf="userService.getUser()" class="navbar-nav my-lg-0">
       <li *ngIf="!userService.getUser().fullUser" class="nav-item pointer">
-        <a role="button" class="nav-link" (click)="toggleLoginModal()">Login/Signup</a>
+        <a role="button" class="nav-link" (click)="toggleLoginModal()">Login</a>
       </li>
       <li dropdown class="nav-item pointer" keyboardNav="true">
         <a class="nav-link" role="button" type="button" dropdownToggle>

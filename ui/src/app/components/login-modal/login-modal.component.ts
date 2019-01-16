@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Observable } from 'rxjs/Observable';
-import { UserService } from '../../services';
-import { User, Tools } from '../../shared';
-import { Router } from '@angular/router';
-import { ToasterService } from 'angular2-toaster';
+import {Component, OnInit, ViewChild, Output, EventEmitter, Input} from '@angular/core';
+import {ModalDirective} from 'ngx-bootstrap/modal';
+import {Observable} from 'rxjs/Observable';
+import {UserService} from '../../services';
+import {User, Tools} from '../../shared';
+import {Router} from '@angular/router';
+import {ToasterService} from 'angular2-toaster';
+import {ModalService} from "../../services/modal.service";
 
 
 @Component({
@@ -21,11 +22,13 @@ export class LoginModalComponent implements OnInit {
   public login: Login = {};
 
   @ViewChild('loginModal') private loginModal: ModalDirective;
-  @Output() hideEvent = new EventEmitter();
+  @Output() hideLoginModal = new EventEmitter();
 
   constructor(public userService: UserService,
-    private router: Router,
-    private toasterService: ToasterService) { }
+              private router: Router,
+              private toasterService: ToasterService,
+              private modalService: ModalService) {
+  }
 
   ngOnInit() {
 
@@ -43,36 +46,37 @@ export class LoginModalComponent implements OnInit {
       this.signup.password,
       this.signup.verifyPassword,
       this.signup.email).subscribe(
-        jwt => {
-          Tools.createCookie('jwt', jwt, 9999);
-          this.userService.setUserFromCookie();
-          document.getElementById('closeModalButton').click();
+      jwt => {
+        Tools.createCookie('jwt', jwt, 9999);
+        this.userService.setUserFromCookie();
+        document.getElementById('closeModalButton').click();
 
-        },
-        error => {
-          console.error(error);
-          this.toasterService.pop("error", "Error", error);
-        });
+      },
+      error => {
+        console.error(error);
+        this.toasterService.pop("error", "Error", error);
+      });
 
   }
 
   loginSubmit() {
     this.userService.login(this.login.usernameOrEmail,
       this.login.password).subscribe(
-        jwt => {
-          Tools.createCookie('jwt', jwt, 9999);
-          this.userService.setUserFromCookie();
-          document.getElementById('closeModalButton').click();
+      jwt => {
+        Tools.createCookie('jwt', jwt, 9999);
+        this.userService.setUserFromCookie();
+        document.getElementById('closeModalButton').click();
 
-        },
-        error => {
-          console.error(error);
-          this.toasterService.pop("error", "Error", error);
-        });
+      },
+      error => {
+        console.error(error);
+        this.toasterService.pop("error", "Error", error);
+      });
   }
 
   hiddenEvent() {
-    this.hideEvent.next(true);
+    this.modalService.toggleShowLoginState();
+    this.hideLoginModal.next(true);
   }
 
 }
